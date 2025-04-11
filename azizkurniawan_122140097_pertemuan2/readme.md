@@ -33,13 +33,13 @@ Aplikasi ini adalah dashboard interaktif untuk mahasiswa yang membantu mengorgan
 ## Screenshots
 
 ### Dashboard (Schedule View)
-![Dashboard](image/screenshot1.png)
+![Dashboard](image/screenshot1.jpeg)
 
 ### Tampilan Pertemuan (Meetings View)
-![Pertemuan](image/screenshot2.png)
+![Pertemuan](image/screenshot2.jpeg)
 
 ### Tampilan Cornell Notes (Meeting Detail View)
-![Cornell Notes](image/screenshot3.png)
+![Cornell Notes](image/screenshot3.jpeg)
 
 ## Cara Menggunakan Aplikasi
 
