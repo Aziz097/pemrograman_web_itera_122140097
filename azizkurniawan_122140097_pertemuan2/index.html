@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard Jadwal Kuliah & Cornell Notes</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <!-- Google Fonts: Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-light" style="font-family: 'Poppins', sans-serif">
+    <header class="text-center py-3 mb-3">
+      <h1 class="text-primary">Dashboard Jadwal Kuliah</h1>
+      <p class="text-secondary">Organisir jadwal dan catatan kuliah dengan mudah</p>
+    </header>
+
+    <!-- SECTION 1: SCHEDULE VIEW -->
+    <section id="schedule-view" class="container view">
+      <!-- Tombol collapse untuk Tambah/Edit Mata Kuliah -->
+      <div class="mb-3 text-end">
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#courseFormCollapse"
+          aria-expanded="false"
+          aria-controls="courseFormCollapse"
+        >
+          <i class="bi bi-plus-lg"></i> Tambah Mata Kuliah
+        </button>
+      </div>
+      <!-- Collapse Form: Tambah/Edit Course -->
+      <div class="collapse mb-4" id="courseFormCollapse">
+        <div class="card card-body rounded-4 shadow-sm">
+          <form id="course-form" class="row g-3">
+            <input type="hidden" id="course-id" />
+            <div class="col-md-3">
+              <label for="course-name" class="form-label">Matakuliah</label>
+              <input type="text" class="form-control" id="course-name" placeholder="Nama Matakuliah" required />
+            </div>
+            <div class="col-md-2">
+              <label for="course-day" class="form-label">Hari</label>
+              <select id="course-day" class="form-select">
+                <option value="Senin" selected>Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+                <option value="Kamis">Kamis</option>
+                <option value="Jumat">Jumat</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="course-time" class="form-label">Jam</label>
+              <input type="time" class="form-control" id="course-time" required />
+            </div>
+            <div class="col-md-3">
+              <label for="course-room" class="form-label">Ruangan</label>
+              <input type="text" class="form-control" id="course-room" placeholder="Ruangan" required />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100" id="save-course-btn">
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Grid Schedule -->
+      <div id="schedule-grid" class="row gy-4"></div>
+    </section>
+
+    <!-- SECTION 2: MEETINGS VIEW (Pertemuan per Mata Kuliah) -->
+    <section id="meetings-view" class="container view" style="display: none">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-link text-decoration-none" data-target="schedule-view">
+          <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+        </button>
+        <h2 id="meetings-title" class="mb-0"></h2>
+      </div>
+      <!-- Tombol collapse untuk Tambah/Edit Pertemuan -->
+      <div class="mb-3 text-end">
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#meetingFormCollapse"
+          aria-expanded="false"
+          aria-controls="meetingFormCollapse"
+        >
+          <i class="bi bi-plus-lg"></i> Tambah Pertemuan
+        </button>
+      </div>
+      <!-- Collapse Form: Tambah/Edit Pertemuan -->
+      <div class="collapse mb-4" id="meetingFormCollapse">
+        <div class="card card-body rounded-4 shadow-sm">
+          <form id="meeting-form" class="row g-3">
+            <input type="hidden" id="meeting-id" />
+            <div class="col-md-8">
+              <label for="meeting-title" class="form-label">Judul Pertemuan</label>
+              <input type="text" class="form-control" id="meeting-title" placeholder="Contoh: Pertemuan 1 - Introduction" required />
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100" id="save-meeting-btn">
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- List Pertemuan -->
+      <ul id="meetings-list" class="list-group"></ul>
+    </section>
+
+    <!-- SECTION 3: MEETING DETAIL VIEW (Cornell Notes) -->
+    <section id="meeting-detail-view" class="container view" style="display: none">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-link text-decoration-none" data-target="meetings-view">
+          <i class="bi bi-arrow-left"></i> Kembali ke Pertemuan
+        </button>
+        <h2 id="detail-title" class="mb-0"></h2>
+      </div>
+      <!-- Tombol collapse untuk Tambah/Edit Notes -->
+      <div class="mb-3 text-end">
+        <!-- Jika sudah ada note, tombol berubah menjadi Edit Note -->
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#notesFormCollapse"
+          aria-expanded="false"
+          aria-controls="notesFormCollapse"
+          id="toggle-notes-btn"
+        >
+          <i class="bi bi-plus-lg"></i> Tambah Notes
+        </button>
+      </div>
+      <!-- Collapse Form: Tambah/Edit Cornell Notes -->
+      <div class="collapse mb-4" id="notesFormCollapse">
+        <div class="card card-body rounded-4 shadow-sm">
+          <form id="notes-form">
+            <input type="hidden" id="notes-mode" value="add" />
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="notes-keypoints" class="form-label">Key Points</label>
+                <textarea class="form-control" id="notes-keypoints" rows="4" required></textarea>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="notes-text" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes-text" rows="4" required></textarea>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="notes-summary" class="form-label">Summary</label>
+              <textarea class="form-control" id="notes-summary" rows="3" required></textarea>
+            </div>
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary" id="save-notes-btn">
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Cornell Note Detail (Hanya 1 note per meeting) -->
+      <div id="notes-container" class="mt-4"></div>
+    </section>
+
+    <!-- Bootstrap 5 JS Bundle (termasuk Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
