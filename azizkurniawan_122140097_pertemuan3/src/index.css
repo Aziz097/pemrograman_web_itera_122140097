@@ -1,0 +1,19 @@
+/* 1. Import Tailwind v4 CSS-first */
+@import "tailwindcss";
+
+/* 2. Define theme variables */
+@theme {
+  --font-sans: 'Montserrat', sans-serif;
+  --color-accent-500: #9B25E3;
+}
+
+/* 3. Global styles via @layer base */
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    @apply bg-gray-900 text-white;
+  }
+  a {
+    @apply text-white no-underline;
+  }
+}
